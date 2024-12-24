@@ -1,3 +1,13 @@
+--getgenv().WebhookURL = "1"
+--getgenv().FactoryWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().RogerWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().MihowkWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().BrookWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().KickOnJoin = true
+--getgenv().AutoFastMode = true
+--getgenv().Disable3DRender = false
+--getgenv().PrivateServerCode = ""
+
 if game.PlaceId == 1730877806 then
     wait(5)
 end
@@ -93,7 +103,7 @@ local function KickOnJoin()
         end
     end)
 end
-KickOnJoin()
+spawn(KickOnJoin)
 
 if game.PlaceId == 3978370137 then
     for i = 1, 20 do
@@ -117,13 +127,21 @@ local function noclip()
 end
 spawn(noclip)
 
-if game.PlaceId ~= 1730877806 then
-    local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(8999999488, 8999999488, 8999999488)
-    bodyVelocity.P = 1250
-    bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-    bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+local function disableGravity()
+    if game.PlaceId ~= 1730877806 then
+        while true do
+            if not game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"):FindFirstChild("BodyVelocity") then
+                local bodyVelocity = Instance.new("BodyVelocity")
+                bodyVelocity.MaxForce = Vector3.new(8999999488, 8999999488, 8999999488)
+                bodyVelocity.P = 1250
+                bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+                bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+            end
+            task.wait()
+        end
+    end
 end
+spawn(disableGravity)
 
 local function Tween(position)
     if position then
@@ -738,8 +756,16 @@ local function Farm()
             local law = workspace.NPCs:FindFirstChild("Law")
 
             if stamina.Value < 100 then
-                while stamina.Value < stamina.MaxValue do
-                    game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                while stamina.Value < stamina.MaxValue do          
+                    while not inventoryValueJSON["Stamina Drink"] do
+                        Tween(Vector3.new(8317.33, 69.02, 10520.95))
+                        for i = 20, 1, -1 do
+                            game:GetService("ReplicatedStorage").Events.Shop:InvokeServer(workspace.BuyableItems:FindFirstChild("Stamina Drink"), i)
+                        end
+                        game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                        task.wait(0.1)
+                        staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
+                    end
                     player.Character.Humanoid:EquipTool(staminaDrink)
                     local centerNahh = game:GetService("Players").LocalPlayer.PlayerGui.BackpackGui.Backpack.Inventory
                     virtualInputManager:SendMouseButtonEvent(centerNahh.AbsolutePosition.X + 100 + centerNahh.AbsoluteSize.X / 2, centerNahh.AbsolutePosition.Y + centerNahh.AbsoluteSize.Y + 100, 0, true, player, 1)
@@ -747,6 +773,8 @@ local function Farm()
                     task.wait()
                     staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
                     stamina = playerStats:WaitForChild("Stamina")
+                    inventoryValue = playerStats.Inventory.Inventory.Value
+                    inventoryValueJSON = game:GetService("HttpService"):JSONDecode(inventoryValue)
                 end
             end
 
@@ -756,7 +784,7 @@ local function Farm()
                 end
             end
 
-            if string.find(Door.ContentText, "FACTORY CLOSED REOPENING IN") then
+            if string.find(Door.ContentText, "FACTORY CLOSED REOPENING IN") or string.find(Door.ContentText, "WAITING FOR PLAYERS...") then
                 local skillEvents1 = getSkillEvents1(player.Name, "RemoteFunction")
                 if skillEvents1 then
                     for _, skillEvent1 in pairs(skillEvents1) do
@@ -808,8 +836,16 @@ local function Farm()
                             Tween(Vector3.new(8805.2724609375, 955.7744750976562, 11890.7490234375))
                         end
                         if stamina.Value < 100 then
-                            while stamina.Value < stamina.MaxValue do
-                                game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                            while stamina.Value < stamina.MaxValue do          
+                                while not inventoryValueJSON["Stamina Drink"] do
+                                    Tween(Vector3.new(8317.33, 69.02, 10520.95))
+                                    for i = 20, 1, -1 do
+                                        game:GetService("ReplicatedStorage").Events.Shop:InvokeServer(workspace.BuyableItems:FindFirstChild("Stamina Drink"), i)
+                                    end
+                                    game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                                    task.wait(0.1)
+                                    staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
+                                end
                                 player.Character.Humanoid:EquipTool(staminaDrink)
                                 local centerNahh = game:GetService("Players").LocalPlayer.PlayerGui.BackpackGui.Backpack.Inventory
                                 virtualInputManager:SendMouseButtonEvent(centerNahh.AbsolutePosition.X + 100 + centerNahh.AbsoluteSize.X / 2, centerNahh.AbsolutePosition.Y + centerNahh.AbsoluteSize.Y + 100, 0, true, player, 1)
@@ -817,6 +853,8 @@ local function Farm()
                                 task.wait()
                                 staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
                                 stamina = playerStats:WaitForChild("Stamina")
+                                inventoryValue = playerStats.Inventory.Inventory.Value
+                                inventoryValueJSON = game:GetService("HttpService"):JSONDecode(inventoryValue)
                             end
                         end
                         task.wait()
@@ -859,8 +897,16 @@ local function Farm()
                             Tween(Vector3.new(8805.2724609375, 955.7744750976562, 11890.7490234375))
                         end
                         if stamina.Value < 100 then
-                            while stamina.Value < stamina.MaxValue do
-                                game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                            while stamina.Value < stamina.MaxValue do          
+                                while not inventoryValueJSON["Stamina Drink"] do
+                                    Tween(Vector3.new(8317.33, 69.02, 10520.95))
+                                    for i = 20, 1, -1 do
+                                        game:GetService("ReplicatedStorage").Events.Shop:InvokeServer(workspace.BuyableItems:FindFirstChild("Stamina Drink"), i)
+                                    end
+                                    game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                                    task.wait(0.1)
+                                    staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
+                                end
                                 player.Character.Humanoid:EquipTool(staminaDrink)
                                 local centerNahh = game:GetService("Players").LocalPlayer.PlayerGui.BackpackGui.Backpack.Inventory
                                 virtualInputManager:SendMouseButtonEvent(centerNahh.AbsolutePosition.X + 100 + centerNahh.AbsoluteSize.X / 2, centerNahh.AbsolutePosition.Y + centerNahh.AbsoluteSize.Y + 100, 0, true, player, 1)
@@ -868,9 +914,17 @@ local function Farm()
                                 task.wait()
                                 staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
                                 stamina = playerStats:WaitForChild("Stamina")
+                                inventoryValue = playerStats.Inventory.Inventory.Value
+                                inventoryValueJSON = game:GetService("HttpService"):JSONDecode(inventoryValue)
                             end
                         end
                         task.wait()
+                    end
+                end
+                local skillEvents1 = getSkillEvents1(player.Name, "RemoteFunction")
+                if skillEvents1 then
+                    for _, skillEvent1 in pairs(skillEvents1) do
+                        skillEvent1:InvokeServer()
                     end
                 end
                 if stamina.Value < 100 then
@@ -893,8 +947,16 @@ local function Farm()
                                 TweenV2(Vector3.new(12932.62, 22.70, 2900.34))
                             end
                             if stamina.Value < 100 then
-                                while stamina.Value < stamina.MaxValue do
-                                    game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                                while stamina.Value < stamina.MaxValue do          
+                                    while not inventoryValueJSON["Stamina Drink"] do
+                                        Tween(Vector3.new(8317.33, 69.02, 10520.95))
+                                        for i = 20, 1, -1 do
+                                            game:GetService("ReplicatedStorage").Events.Shop:InvokeServer(workspace.BuyableItems:FindFirstChild("Stamina Drink"), i)
+                                        end
+                                        game:GetService("ReplicatedStorage").Events.Tools:InvokeServer("equip", "Stamina Drink")
+                                        task.wait(0.1)
+                                        staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
+                                    end
                                     player.Character.Humanoid:EquipTool(staminaDrink)
                                     local centerNahh = game:GetService("Players").LocalPlayer.PlayerGui.BackpackGui.Backpack.Inventory
                                     virtualInputManager:SendMouseButtonEvent(centerNahh.AbsolutePosition.X + 100 + centerNahh.AbsoluteSize.X / 2, centerNahh.AbsolutePosition.Y + centerNahh.AbsoluteSize.Y + 100, 0, true, player, 1)
@@ -902,6 +964,8 @@ local function Farm()
                                     task.wait()
                                     staminaDrink = player.Backpack:FindFirstChild("Stamina Drink")
                                     stamina = playerStats:WaitForChild("Stamina")
+                                    inventoryValue = playerStats.Inventory.Inventory.Value
+                                    inventoryValueJSON = game:GetService("HttpService"):JSONDecode(inventoryValue)
                                 end
                             end
                             roger = workspace.NPCs:FindFirstChild("Roger")
@@ -912,6 +976,12 @@ local function Farm()
                     roger = workspace.NPCs:FindFirstChild("Roger")
                     hawkEye = workspace.NPCs:FindFirstChild("Hawk Eye")
                     task.wait()
+                end
+                local skillEvents1 = getSkillEvents1(player.Name, "RemoteFunction")
+                if skillEvents1 then
+                    for _, skillEvent1 in pairs(skillEvents1) do
+                        skillEvent1:InvokeServer()
+                    end
                 end
                 if (humanoidRootPart.Position - Vector3.new(8810.349609375, 65.77273559570312, 11456.9912109375)).Magnitude > 5 then
                     Tween(Vector3.new(8810.349609375, 65.77273559570312, 11456.9912109375))
@@ -1095,15 +1165,15 @@ local function halalHubImage()
     local loadingFrame = Instance.new("Frame")
     loadingFrame.Size = UDim2.new(1, 0, 1, 0)
     loadingFrame.Position = UDim2.new(0, 0, 0, 0)
-    loadingFrame.BackgroundColor3 = Color3.new(34, 34, 34)
+    loadingFrame.BackgroundColor3 = Color3.new(0, 0, 0)
     loadingFrame.Parent = screenGui
 
     local loadingText = Instance.new("TextLabel")
     loadingText.Size = UDim2.new(1, 0, 0.1, 0)
     loadingText.Position = UDim2.new(0, 0, 0.45, 0)
     loadingText.BackgroundTransparency = 1
-    loadingText.TextColor3 = Color3.new(255, 133, 27)
-    loadingText.Text = "GreedHub"
+    loadingText.TextColor3 = Color3.new(1, 1, 1)
+    loadingText.Text = "GreedHub Exclusive"
     loadingText.Font = Enum.Font.SourceSans
     loadingText.TextSize = 300
     loadingText.Parent = loadingFrame
