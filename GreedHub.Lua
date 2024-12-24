@@ -5,6 +5,7 @@
 --getgenv().BrookWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
 --getgenv().AutoFastMode = true
 --getgenv().Disable3DRender = false
+--getgenv().KickOnJoin = true
 --getgenv().PrivateServerCode = ""
 
 if game.PlaceId == 1730877806 then
@@ -79,6 +80,18 @@ if getgenv().PrivateServerCode ~= "" and game.PlaceId == 1730877806 then
     AutoJoinPsV2()
 end
 
+local function KickOnJoin()
+    local Players = game:GetService("Players")
+    local localPlayer = Players.LocalPlayer
+
+    Players.PlayerAdded:Connect(function(player)
+        if getgenv().KickOnJoin and player ~= localPlayer then
+            localPlayer:Kick("You were kicked because there is other players on the server.")
+        end
+    end)
+end
+KickOnJoin()
+
 if game.PlaceId == 3978370137 then
     for i = 1, 20 do
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(-14801.85546875, 143.291015625, -9169.4658203125))
@@ -101,21 +114,13 @@ local function noclip()
 end
 spawn(noclip)
 
-local function disableGravity()
-    if game.PlaceId ~= 1730877806 then
-        while true do
-            if not game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("BodyVelocity") then
-                local bodyVelocity = Instance.new("BodyVelocity")
-                bodyVelocity.MaxForce = Vector3.new(8999999488, 8999999488, 8999999488)
-                bodyVelocity.P = 1250
-                bodyVelocity.Velocity = Vector3.new(0, 0, 0)
-                bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
-            end
-            task.wait()
-        end
-    end
+if game.PlaceId ~= 1730877806 then
+    local bodyVelocity = Instance.new("BodyVelocity")
+    bodyVelocity.MaxForce = Vector3.new(8999999488, 8999999488, 8999999488)
+    bodyVelocity.P = 1250
+    bodyVelocity.Velocity = Vector3.new(0, 0, 0)
+    bodyVelocity.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
 end
-spawn(disableGravity)
 
 local function Tween(position)
     if position then
@@ -748,7 +753,7 @@ local function Farm()
                 end
             end
 
-            if string.find(Door.ContentText, "FACTORY CLOSED REOPENING IN") or string.find(Door.ContentText, "WAITING FOR PLAYERS...") then
+            if string.find(Door.ContentText, "FACTORY CLOSED REOPENING IN") then
                 local skillEvents1 = getSkillEvents1(player.Name, "RemoteFunction")
                 if skillEvents1 then
                     for _, skillEvent1 in pairs(skillEvents1) do
