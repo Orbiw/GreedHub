@@ -1,11 +1,11 @@
-getgenv().WebhookURL = "1"
-getgenv().FactoryWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().RogerWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().MihowkWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().BrookWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().AutoFastMode = true
-getgenv().Disable3DRender = false
-getgenv().PrivateServerCode = ""
+--getgenv().WebhookURL = "1"
+--getgenv().FactoryWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().RogerWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().MihowkWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().BrookWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
+--getgenv().AutoFastMode = true
+--getgenv().Disable3DRender = false
+--getgenv().PrivateServerCode = ""
 
 if game.PlaceId == 1730877806 then
     wait(5)
