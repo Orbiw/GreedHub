@@ -1,12 +1,3 @@
-getgenv().WebhookURL = "1"
-getgenv().FactoryWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().RogerWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().MihowkWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().BrookWebhookURL = "https://discord.com/api/webhooks/1139271807661264986/4AQdqFs8G305TcwDJ8PQ880Xahc46xKwMz1gaYLchJGQDr0nE5c0yIiZJgTbwezGvQwT"
-getgenv().AutoFastMode = true
-getgenv().Disable3DRender = false
-getgenv().PrivateServerCode = ""
-
 if game.PlaceId == 1730877806 then
     wait(5)
 end
@@ -78,6 +69,31 @@ end
 if getgenv().PrivateServerCode ~= "" and game.PlaceId == 1730877806 then
     AutoJoinPsV2()
 end
+
+local function KickOnJoin()
+    local Players = game:GetService("Players")
+    local localPlayer = Players.LocalPlayer
+
+    local function checkAndKick()
+        if getgenv().KickOnJoin then
+            for _, player in ipairs(Players:GetPlayers()) do
+                if player ~= localPlayer then
+                    localPlayer:Kick("You were kicked because someone else is in the game.")
+                    break
+                end
+            end
+        end
+    end
+
+    checkAndKick()
+
+    Players.PlayerAdded:Connect(function(player)
+        if getgenv().KickOnJoin and player ~= localPlayer then
+            localPlayer:Kick("You were kicked because someone joined the game.")
+        end
+    end)
+end
+KickOnJoin()
 
 if game.PlaceId == 3978370137 then
     for i = 1, 20 do
